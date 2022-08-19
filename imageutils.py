@@ -25,7 +25,7 @@ def resize_image(mat, shape):
 
 # just this
 def open_to_mat(image_path):
-    return cv2.imread(image_path)
+    return cv2.imread(image_path).astype(np.float32)/256
 
 
 # # show image from path using opencv stuff
@@ -39,7 +39,7 @@ def open_to_mat(image_path):
 class ImageShower():
 
     images = []
-
+    fig = None
     def __init__(self):
         pass
 
@@ -55,7 +55,7 @@ class ImageShower():
         for mat, image_name  in self.images:
             print("Runniong show on image name: {}".format(image_name))
             plt.imshow(mat, cmap="gray")
-            self.show()
+        self.show()
 
     def show(self):
         plt.show()

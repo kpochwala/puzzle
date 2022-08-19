@@ -40,7 +40,7 @@ def create_rotation_filter(angle, size):
     img.append_image(direction_filter, "direction filter")
     img.show_blackwhite()
 
-    pass
+    return direction_filter
 
 def quick_binary_filter(mat, threshold) -> tuple:
 
@@ -54,8 +54,6 @@ def quick_binary_filter(mat, threshold) -> tuple:
 
 def pick_point_of_interest(mat):
     return  quick_binary_filter(mat, 10)
-
-
 
     
     # would use fewer iterations if matrix was scanned n-th line
