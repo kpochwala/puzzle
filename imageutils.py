@@ -60,9 +60,48 @@ class ImageShower():
 def generate_x_marker(size):
     diagonal = np.identity(size)
     
-    print(diagonal)
     other_diagonal = np.rot90(diagonal, k=1, axes=(1,0))
-    print(other_diagonal)
     out = diagonal + other_diagonal
 
     return out
+
+# https://stackoverflow.com/questions/40833073/insert-matrix-into-the-center-of-another-matrix-in-python
+def put_marker(mat, position, marker_size = 10):
+
+    marker = generate_x_marker(marker_size)
+
+    marker = np.ones(marker_size**2).reshape(marker_size, marker_size)
+
+    # nb = mat.shape[0]
+    # na = marker.shape[0]
+    
+
+
+    # lower = nb - position
+    # upper = nb - position + na
+
+    # lower = (nb) // 2 - (na // 2)
+    # upper = (nb // 2) + (na // 2)
+    
+    # print("matrix size: ({}, {})".format(mat.shape))
+
+    lower = position
+    upper = position + marker.shape
+
+    print(marker)
+    print(mat.shape)
+
+
+
+    print(mat[position[0]: position[0] + marker.shape[0], position[1]:position[1]+marker.shape[1]])
+
+
+    mat[position[0]: position[0] + marker.shape[0], position[1]:position[1]+marker.shape[1]] = marker*100
+
+
+    show = ImageShower()
+    print(mat)
+    show.append_image(mat, "debug")
+    show.show()
+
+    return mat

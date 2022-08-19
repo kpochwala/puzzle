@@ -1,4 +1,5 @@
 import imageutils
+import filterutils
 
 import glob, os
 
@@ -30,20 +31,27 @@ def generate_curve():
         image = imageutils.open_to_mat(path)
 
         mat = imageutils.detect_edges(image)
+
+        poi = filterutils.pick_point_of_interest(mat)
+        print("point of interest")
+        print(poi)
+        
+        mat = imageutils.put_marker(mat, poi)
+
+        
+
         img.append_image(mat, path)
 
     img.show_blackwhite()
 
 
 def main():
-    img = imageutils.ImageShower()
+    generate_curve()
+    # marker = imageutils.generate_x_marker(20);
 
-    marker = imageutils.generate_x_marker(20);
+    # image = marker
 
-    image = marker
-
-    img.append_image(imageutils.rotate_image(image, 30), "marker")
-    img.show_blackwhite()
+    # img.append_image(imageutils.rotate_image(image, 30), "marker")
     
 
 if __name__ == "__main__":
