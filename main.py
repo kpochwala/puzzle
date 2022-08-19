@@ -21,12 +21,24 @@ def display_transform(func):
         print(input_mat)
         print(output_mat)
 
+        fig, axs = plt.subplots(1, 2, constrained_layout=True)        
+        axs[0].imshow(input_mat, cmap='gray')
+        axs[0].set_title("Input")
+        axs[0].set_xlabel('x')
+        axs[0].set_ylabel('y')
 
-        plt.subplot(1, 2, 1), plt.imshow(input_mat, cmap='gray')
-        plt.title("Input")
+        axs[1].imshow(output_mat, cmap='gray')
+        axs[1].set_title("Output")
+        axs[1].set_xlabel('x')
+        axs[1].set_ylabel('y')
+
+        fig.suptitle(func.__name__)
+
+        # plt.subplot(1, 2, 1), 
+        # plt.title("Input")
         
-        plt.subplot(1, 2, 2), plt.imshow(output_mat, cmap='gray')
-        plt.title("Output")
+        # plt.subplot(1, 2, 2), plt.imshow(output_mat, cmap='gray')
+        
         # plt.savefig('final_image_name.extension') # To save figure
         plt.show()
 
