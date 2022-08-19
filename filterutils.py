@@ -1,6 +1,8 @@
 
 
 import itertools
+import imageutils
+import os
 
 def validate_inputs(mat, filtermatrix) -> bool:
 
@@ -25,6 +27,21 @@ def validate_inputs(mat, filtermatrix) -> bool:
 #         if break_decision(x,y, filter_value):
 #             return x, y
 
+def create_rotation_filter(angle, size):
+
+    this_script_path = os.path.dirname(os.path.realpath(__file__))
+    filter_path = os.path.join(this_script_path, 'filter_img/direction_filter.png')
+
+    direction_filter = imageutils.open_to_mat(filter_path)
+    direction_filter = imageutils.rotate_image(direction_filter, angle)
+    direction_filter = imageutils.resize_image(direction_filter, (size, size))
+
+    img = imageutils.ImageShower()
+    img.append_image(direction_filter, "direction filter")
+    img.show_blackwhite()
+
+    pass
+
 def quick_binary_filter(mat, threshold) -> tuple:
 
     rows, cols = mat.shape
@@ -36,8 +53,7 @@ def quick_binary_filter(mat, threshold) -> tuple:
       
 
 def pick_point_of_interest(mat):
-    
-    return  quick_binary_filter(mat, 0.1)
+    return  quick_binary_filter(mat, 10)
 
 
 

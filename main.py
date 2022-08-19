@@ -5,7 +5,8 @@ import glob, os
 
 import numpy as np
 
-path_to_images = '/home/kpo/git/puzzle/puzzle_img'
+this_script_path = os.path.dirname(os.path.realpath(__file__))
+path_to_images = os.path.join(this_script_path,'./puzzle_img')
 window_name = "puzzle"
 
 
@@ -36,7 +37,8 @@ def generate_curve():
         print("point of interest")
         print(poi)
         
-        mat = imageutils.put_marker(mat, poi)
+        if poi is not None:
+            mat = imageutils.put_marker(mat, poi)
 
         
 
@@ -46,7 +48,8 @@ def generate_curve():
 
 
 def main():
-    generate_curve()
+    filter = filterutils.create_rotation_filter(30, 128)
+    # generate_curve()
     # marker = imageutils.generate_x_marker(20);
 
     # image = marker

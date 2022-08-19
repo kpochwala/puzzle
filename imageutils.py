@@ -19,6 +19,10 @@ def rotate_image(image, angle):
   result = cv2.warpAffine(image, rot_mat, image.shape[1::-1], flags=cv2.INTER_LINEAR)
   return result
 
+def resize_image(mat, shape):
+    return cv2.resize(mat, shape)
+
+
 # just this
 def open_to_mat(image_path):
     return cv2.imread(image_path)
