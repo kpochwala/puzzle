@@ -10,42 +10,6 @@ this_script_path = os.path.dirname(os.path.realpath(__file__))
 path_to_images = os.path.join(this_script_path,'./puzzle_img')
 window_name = "puzzle"
 
-# decorator to display mat->mat transform 
-def display_transform(func):
-    def wrapper(*args, **kwargs):
-        input_mat = args[0]
-        print("Display transform before: ")
-        output_mat = func(*args, **kwargs)
-        print("Display transform after: ")
-
-        print(input_mat)
-        print(output_mat)
-
-        fig, axs = plt.subplots(1, 2, constrained_layout=True)        
-        axs[0].imshow(input_mat, cmap='gray')
-        axs[0].set_title("Input")
-        axs[0].set_xlabel('x')
-        axs[0].set_ylabel('y')
-
-        axs[1].imshow(output_mat, cmap='gray')
-        axs[1].set_title("Output")
-        axs[1].set_xlabel('x')
-        axs[1].set_ylabel('y')
-
-        fig.suptitle(func.__name__)
-
-        # plt.subplot(1, 2, 1), 
-        # plt.title("Input")
-        
-        # plt.subplot(1, 2, 2), plt.imshow(output_mat, cmap='gray')
-        
-        # plt.savefig('final_image_name.extension') # To save figure
-        plt.show()
-
-        return output_mat
-    return wrapper
-
-
 def find_image_paths(path):
     images = []
     os.chdir(path)
@@ -54,9 +18,20 @@ def find_image_paths(path):
     
     return images
 
-@display_transform
-def select_rectangle(mat):
-    return mat
+@imageutils.display_transform
+def select_rectangle(mat, centerpoint, rectangle_shape):
+    rx = rectangle_shape[0] / 2
+    ry = rectangle_shape[1] / 2
+
+    minx = int(centerpoint[0] - rx)
+    maxx = int(centerpoint[0] + rx)
+
+    miny = int(centerpoint[1] - ry)
+    maxy = int(centerpoint[1] + ry)
+
+    # rectangle_center = rectangle_shape / (2, 2)
+    
+    return mat[minx:maxx,miny:maxy]
     pass
 
 def generate_curve():
@@ -87,11 +62,16 @@ def generate_curve():
 
 
 #
+
+@imageutils.display_transform
+def mask_image(original, mask):
+    return original * mask
+
 def score(mat, mask):
     if mat.shape != mask.shape:
         raise ValueError("image part must be the same size as filter kernel")
 
-    return np.sum(mat*mask)
+    return np.sum(mask_image(mat,mask))
 
     
 
@@ -107,10 +87,12 @@ def main():
 
     filter_angles = np.arange(-90, 90, 22.5)
 
-    size = 5
+    size = 20
 
     mat = filterutils.create_rotation_filter(30, size)
-    mat = select_rectangle(mat)
+    mat2 = filterutils.create_rotation_filter(60, size)
+    val = score(mat, mat2)
+    mat = select_rectangle(mat, (10, 10), (10, 10))
 
     # filters = {}
     # for angle in filter_angles:

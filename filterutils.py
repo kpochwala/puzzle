@@ -36,10 +36,6 @@ def create_rotation_filter(angle, size):
     direction_filter = imageutils.rotate_image(direction_filter, angle)
     direction_filter = imageutils.resize_image(direction_filter, (size, size))
 
-    img = imageutils.ImageShower()
-    img.append_image(direction_filter, "direction filter")
-    img.show_blackwhite()
-
     return direction_filter
 
 def quick_binary_filter(mat, threshold) -> tuple:
